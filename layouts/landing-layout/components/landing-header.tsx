@@ -16,6 +16,7 @@ import {
   DrawerTrigger,
 } from "@hhs/components/shadcn/drawer";
 import { useTheme } from "next-themes";
+import { a } from "framer-motion/client";
 
 const Logo = () => {
   const { resolvedTheme } = useTheme();
@@ -49,14 +50,32 @@ const EventComponent = () => {
   const [error, setError] = React.useState('');
 
   React.useEffect(() => {
-    fetch('https://api.kommunity.com/api/v1/diyarbakir-happy-hacking-space/events?page=1')
-      .then(response => response.json())
-      .then(data => {
-        if (data && data.data && data.data.length > 0) {
-          setEvent(data.data[0]);
-        }
-      })
-      .catch(error => setError('Failed to load event data.'));
+    const fetchEvents = async () => {
+      try {
+        const upcomingEvents = fetch('https://api.kommunity.com/api/v1/diyarbakir-happy-hacking-space/events?page=1');
+        const pastEvents = fetch('https://api.kommunity.com/api/v1/diyarbakir-happy-hacking-space/events?status=past&page=1');
+
+        const [upcomingResponse, pastResponse] = await Promise.all([upcomingEvents, pastEvents]);
+        const upcomingData = await upcomingResponse.json();
+        const pastData = await pastResponse.json();
+
+        let allEvents = upcomingData.data.length > 0 ? upcomingData.data : pastData.data;
+
+        allEvents = allEvents.sort((a : Event, b : Event) => {
+          return new Date(a.start_date_humanity.date).getTime() - new Date(b.start_date_humanity.date).getTime();
+        });
+        
+        setEvent(allEvents[0]);
+      } catch (error) {
+        setError('Failed to fetch event');
+      } finally {
+        setTimeout(() => {
+          setError('');
+        }, 3000);
+      }
+    };
+
+    fetchEvents();
   }, []);
 
   if (error) {
