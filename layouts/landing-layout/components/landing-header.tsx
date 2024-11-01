@@ -37,10 +37,58 @@ const Logo = () => {
   );
 };
 
+interface Event {
+  name: string;
+  start_date_humanity: { date: string };
+  venue: { name: string };
+  calendar_links: { google: string };
+}
+
+const EventComponent = () => {
+  const [event, setEvent] = React.useState<Event | null>(null);
+  const [error, setError] = React.useState('');
+
+  React.useEffect(() => {
+    fetch('https://api.kommunity.com/api/v1/diyarbakir-happy-hacking-space/events?page=1')
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.data && data.data.length > 0) {
+          setEvent(data.data[0]);
+        }
+      })
+      .catch(error => setError('Failed to load event data.'));
+  }, []);
+
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>;
+  }
+
+  if (!event) {
+    return <div className="text-center">Loading event...</div>;
+  }
+
+  return (
+    <div className="bg-yellow-300 text-black text-center py-2 font-semibold">
+      <p>{event.name} - {event.start_date_humanity.date} @ {event.venue.name}
+        <a
+          href={event.calendar_links.google}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 underline ml-2"
+        >
+          +
+        </a>
+      </p>
+    </div>
+  );
+};
+
 const LandingHeader = () => {
   const pathname = usePathname();
 
   return (
+    <>
+    <EventComponent/>
     <header className="flex items-center md:items-end justify-between gap-4 flex-wrap ">
       <div className="flex-wrap flex gap-4 md:block md:px-4 space-y-1">
         <Link
@@ -107,6 +155,7 @@ const LandingHeader = () => {
 
       <ThemeSwitcher />
     </header>
+    </>
   );
 };
 
