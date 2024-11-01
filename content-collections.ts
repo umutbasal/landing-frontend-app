@@ -9,6 +9,7 @@ const landing = defineCollection({
   include: "**/*.mdx",
   schema: (z) => ({
     title: z.string(),
+    subtitle: z.string(),
     summary: z.string(),
   }),
   transform: async (document, context) => {

@@ -15,7 +15,7 @@ export default function RootLayout({ children }: ChildrenProps) {
 }
 
 export const viewport: Viewport = {
-  colorScheme: "dark",
+  colorScheme: SITE.colorScheme as Viewport["colorScheme"],
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },

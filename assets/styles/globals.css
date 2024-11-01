@@ -61,6 +61,6 @@
   }
 
   body {
-    @apply font-sans text-base antialiased tracking-[.05em] bg-background text-foreground h-full;
+    @apply font-mono text-base antialiased tracking-[.05em] bg-background text-foreground h-full;
   }
 }

@@ -15,6 +15,27 @@ import {
   DrawerContent,
   DrawerTrigger,
 } from "@hhs/components/shadcn/drawer";
+import { useTheme } from "next-themes";
+
+const Logo = () => {
+  const { resolvedTheme } = useTheme();
+  const serverLogoSrc = SITE.colorScheme === "dark" ? "/assets/hhs-transparent-white.png" : "/assets/hhs-black.avif";
+  const [logoSrc, setLogoSrc] = React.useState(serverLogoSrc);
+  const color = resolvedTheme || SITE.colorScheme;
+
+  React.useEffect(() => {
+    setLogoSrc(color === 'dark' ? '/assets/hhs-white.avif' : '/assets/hhs-black.avif');
+  }, [resolvedTheme, color])
+
+  return (
+    <Image
+      src={logoSrc}
+      width={40}
+      height={40}
+      alt={SITE.title}
+    />
+  );
+};
 
 const LandingHeader = () => {
   const pathname = usePathname();
@@ -26,17 +47,13 @@ const LandingHeader = () => {
           href="/"
           className="flex items-center gap-2 md:px-2 order-2 md:order:1"
         >
-          <Image
-            src="/assets/hhs.avif"
-            width={40}
-            height={40}
-            alt={SITE.title}
-          />
+          <Logo />
           <span className="font-bold w-44">{SITE.title}</span>
         </Link>
         {/* Desktop */}
-        <nav className="hidden md:flex items-center gap-2 flex-wrap grow h-10">
-          {NAV_ITEMS.map((item) => (
+        <nav className="hidden md:flex items-center flex-wrap grow h-10">
+          {NAV_ITEMS.map((item, index) => (
+            <React.Fragment key={item.label}>
             <Button
               variant="ghost"
               asChild
@@ -56,6 +73,10 @@ const LandingHeader = () => {
                 )}
               </Link>
             </Button>
+            {index < NAV_ITEMS.length - 1 && (
+              <span className="mx-2 text-gray-500">|</span>
+            )}
+            </React.Fragment>
           ))}
         </nav>
 

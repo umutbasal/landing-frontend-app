@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { allLandings } from "@hhs/.content-collections/generated";
 import Markdown from "@hhs/components/custom/mdx";
+import Subtitle from "@hhs/components/custom/subtitle";
 
 interface ViewPageProps {
   params: {
@@ -35,5 +36,8 @@ export default async function ViewPage(props: ViewPageProps) {
     notFound();
   }
 
-  return <Markdown code={view.body.code} />;
+  return <>
+    <Subtitle>{view.subtitle}</Subtitle>
+    <Markdown code={view.body.code} />
+  </>;
 }
