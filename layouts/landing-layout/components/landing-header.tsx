@@ -19,7 +19,7 @@ import { useTheme } from "next-themes";
 
 const Logo = () => {
   const { resolvedTheme } = useTheme();
-  const serverLogoSrc = SITE.colorScheme === "dark" ? "/assets/hhs-transparent-white.png" : "/assets/hhs-black.avif";
+  const serverLogoSrc = SITE.colorScheme === "dark" ? "/assets/hhs-white.png" : "/assets/hhs-black.avif";
   const [logoSrc, setLogoSrc] = React.useState(serverLogoSrc);
   const color = resolvedTheme || SITE.colorScheme;
 
