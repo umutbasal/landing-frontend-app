@@ -69,12 +69,9 @@ const BannerLastEvent = () => {
   console.log(event);
 
   return (
-    <Wrapper className="border border-input bg-primary text-primary-foreground space-x-2">
-      <p className="md:block hidden underline underline-offset-4">
-        Last event:
-      </p>
+    <Wrapper className="border border-input bg-primary text-primary-foreground">
       <Link
-        className="after:content-['_↗'] truncate"
+        className="after:content-['_↗'] truncate space-x-2"
         rel="noopener noreferrer"
         href={
           `https://kommunity.com/${event.community.slug}/events/${event.slug}` ||
@@ -82,7 +79,10 @@ const BannerLastEvent = () => {
         }
         target="_blank"
       >
-        {event.name} - {event.start_date_humanity.date} @ {event.venue.name}
+        <span className="underline underline-offset-4">Last event:</span>
+        <span>
+          {event.name} - {event.start_date_humanity.date} @ {event.venue.name}
+        </span>
       </Link>
     </Wrapper>
   );
