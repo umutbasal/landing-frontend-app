@@ -16,7 +16,7 @@ import {
   DrawerTrigger,
 } from "@hhs/components/shadcn/drawer";
 import BannerLastEvent from "@hhs/components/custom/banner-last-event";
-import Logo from "@hhs/components/custom/logo";
+import Logo from "@hhs/components/custom/Logo";
 
 const LandingHeader = () => {
   const pathname = usePathname();
