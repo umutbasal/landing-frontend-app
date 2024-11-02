@@ -3,7 +3,7 @@ import * as React from "react";
 import Link from "next/link";
 import ThemeSwitcher from "@hhs/components/custom/theme-switcher";
 import { Button } from "@hhs/components/shadcn/button";
-import Image from "next/image";
+
 import { SITE } from "@hhs/constants/metadata";
 import { NAV_ITEMS } from "@hhs/constants/layout";
 import { usePathname } from "next/navigation";
@@ -15,108 +15,15 @@ import {
   DrawerContent,
   DrawerTrigger,
 } from "@hhs/components/shadcn/drawer";
-import { useTheme } from "next-themes";
-
-const Logo = () => {
-  const { resolvedTheme } = useTheme();
-  const serverLogoSrc =
-    SITE.colorScheme === "dark"
-      ? "/assets/hhs-white.avif"
-      : "/assets/hhs-black.avif";
-  const [logoSrc, setLogoSrc] = React.useState(serverLogoSrc);
-  const color = resolvedTheme || SITE.colorScheme;
-
-  React.useEffect(() => {
-    setLogoSrc(
-      color === "dark" ? "/assets/hhs-white.avif" : "/assets/hhs-black.avif"
-    );
-  }, [resolvedTheme, color]);
-
-  return <Image src={logoSrc} width={40} height={40} alt={SITE.title} />;
-};
-
-interface Event {
-  name: string;
-  start_date_humanity: { date: string };
-  venue: { name: string };
-  calendar_links: { google: string };
-}
-
-const EventComponent = () => {
-  const [event, setEvent] = React.useState<Event | null>(null);
-  const [error, setError] = React.useState("");
-
-  React.useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const upcomingEvents = fetch(
-          "https://api.kommunity.com/api/v1/diyarbakir-happy-hacking-space/events?page=1"
-        );
-        const pastEvents = fetch(
-          "https://api.kommunity.com/api/v1/diyarbakir-happy-hacking-space/events?status=past&page=1"
-        );
-
-        const [upcomingResponse, pastResponse] = await Promise.all([
-          upcomingEvents,
-          pastEvents,
-        ]);
-        const upcomingData = await upcomingResponse.json();
-        const pastData = await pastResponse.json();
-
-        let allEvents =
-          upcomingData.data.length > 0 ? upcomingData.data : pastData.data;
-
-        allEvents = allEvents.sort((a: Event, b: Event) => {
-          return (
-            new Date(a.start_date_humanity.date).getTime() -
-            new Date(b.start_date_humanity.date).getTime()
-          );
-        });
-
-        setEvent(allEvents[0]);
-      } catch (error) {
-        setError("Failed to fetch event");
-      } finally {
-        setTimeout(() => {
-          setError("");
-        }, 3000);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
-  }
-
-  if (!event) {
-    return <div className="text-center">Loading event...</div>;
-  }
-
-  return (
-    <div className="bg-yellow-300 text-black text-center py-2 font-semibold">
-      <p>
-        {event.name} - {event.start_date_humanity.date} @ {event.venue.name}
-        <a
-          href={event.calendar_links.google}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 underline ml-2"
-        >
-          +
-        </a>
-      </p>
-    </div>
-  );
-};
+import BannerLastEvent from "@hhs/components/custom/BannerLastEvent";
+import Logo from "@hhs/components/custom/Logo";
 
 const LandingHeader = () => {
   const pathname = usePathname();
 
   return (
     <>
-      <EventComponent />
+      <BannerLastEvent />
       <header className="flex items-center md:items-end justify-between gap-4 flex-wrap ">
         <div className="flex-wrap flex gap-4 md:block md:px-4 space-y-1">
           <Link
