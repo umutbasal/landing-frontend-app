@@ -66,8 +66,6 @@ const BannerLastEvent = () => {
     );
   }
 
-  console.log(event);
-
   return (
     <Wrapper className="border border-input bg-primary text-primary-foreground">
       <Link

@@ -8,8 +8,7 @@ const ThemeProvider: FC<ThemeProviderProps> = ({ children, ...props }) => {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="dark"
       disableTransitionOnChange
       {...props}
     >

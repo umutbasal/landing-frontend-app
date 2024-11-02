@@ -1,8 +1,4 @@
-export const THEME_OPTIONS = [
-  { theme: "light" },
-  { theme: "dark" },
-  { theme: "system" },
-];
+export const THEME_OPTIONS = [{ theme: "light" }, { theme: "dark" }];
 
 export const NAV_ITEMS = [
   {
