@@ -3,23 +3,26 @@ import * as React from "react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { SITE } from "@hhs/constants/metadata";
+import { useMounted } from "@hhs/hooks/useMounted";
 
 const Logo = () => {
-  const { resolvedTheme } = useTheme();
+  const mounted = useMounted();
+  const { theme: currentTheme } = useTheme();
 
-  const darkLogoSrc = "/assets/hhs-white.avif";
-  const lightLogoSrc = "/assets/hhs-black.avif";
+  if (!mounted) return null;
 
-  const initialLogoSrc =
-    SITE.colorScheme === "dark" ? darkLogoSrc : lightLogoSrc;
-  const [logoSrc, setLogoSrc] = React.useState(initialLogoSrc);
-  const currentTheme = resolvedTheme || SITE.colorScheme;
-
-  React.useEffect(() => {
-    setLogoSrc(currentTheme === "dark" ? darkLogoSrc : lightLogoSrc);
-  }, [resolvedTheme, currentTheme]);
-
-  return <Image src={logoSrc} width={40} height={40} alt={SITE.title} />;
+  return (
+    <Image
+      src={
+        currentTheme === "dark"
+          ? "/assets/hhs-white.avif"
+          : "/assets/hhs-black.avif"
+      }
+      alt={SITE.title}
+      width={40}
+      height={40}
+    />
+  );
 };
 
 export default Logo;
