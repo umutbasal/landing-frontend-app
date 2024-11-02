@@ -25,11 +25,10 @@ const heading = (As: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
         strokeWidth="3"
         size={16}
       />
-      <As
-        id={id}
-        className="group-focus-visible:underline group-focus-visible:decoration-primary-500 group-focus-visible:decoration-2 border border-dashed border-primary p-1"
-      >
-        {children}
+      <As id={id} className="group-focus-visible:underline">
+        <span className="group-focus-visible:decoration-primary-500 group-focus-visible:decoration-2 border-b border-dashed border-primary p-1">
+          {children}
+        </span>
       </As>
     </a>
   );

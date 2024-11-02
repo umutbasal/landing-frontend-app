@@ -3,6 +3,7 @@ export const SITE = {
   url: "https://happyhacking.space",
   description:
     "Values exploration, curiosity, and empowerment. Rejects scarcity and believes in an abundant economy through collaboration and shared imagination.",
+  colorScheme: "dark",
 };
 
 export const OG_IMAGE = {
