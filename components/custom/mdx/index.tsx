@@ -1,34 +1,24 @@
 "use client";
-
 import { MDXContent } from "@content-collections/mdx/react";
-import { Hash } from "lucide-react";
-import { ReactNode } from "react";
+import * as React from "react";
 import ContentSection from "./items/content-section";
 import MarkdownImage from "./items/markdown-image";
-type Props = {
-  code: string;
-};
 
-type HeadingProps = {
+interface HeadingProps extends React.PropsWithChildren {
   id?: string;
-  children?: ReactNode;
-};
+}
 
 const heading = (As: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
-  const Heading = ({ id, children }: HeadingProps) => (
+  const Heading = ({ id = "h1", children }: HeadingProps) => (
     <a
       href={`#${id}`}
       className="group relative no-underline focus-visible:ring-0"
     >
-      <Hash
-        className="absolute -left-5 hidden h-full text-primary hidden md:group-hover:block group-focus-visible:block sm:-left-6 "
-        strokeWidth="3"
-        size={16}
-      />
-      <As id={id} className="group-focus-visible:underline">
-        <span className="group-focus-visible:decoration-primary-500 group-focus-visible:decoration-2 border-b border-dashed border-primary p-1">
-          {children}
-        </span>
+      <As
+        id={id}
+        className="group-focus-visible:underline border-b border-dashed border-primary p-1  group-hover:after:content-['_↗'] inline"
+      >
+        {children}
       </As>
     </a>
   );
@@ -36,7 +26,11 @@ const heading = (As: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
   return Heading;
 };
 
-const Markdown = ({ code }: Props) => {
+interface MarkdownProps {
+  code: string;
+}
+
+const Markdown = ({ code }: MarkdownProps) => {
   return (
     <ContentSection>
       <MDXContent
