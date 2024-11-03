@@ -28,7 +28,7 @@ export const getEvent = async (id: string) => {
     const response = await fetch(`${API_URL}/${id}`, options);
     return await response.json();
   } catch (error) {
-    console.info(error);
-    return null;
+    // console.info(error);
+    return error;
   }
 };
