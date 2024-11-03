@@ -10,6 +10,14 @@ export const NAV_ITEMS = [
     href: "/manifesto",
   },
   {
+    label: "Team",
+    href: "/team",
+  },
+  {
+    label: "History",
+    href: "/history",
+  },
+  {
     label: "Contact",
     href: "/contact",
   },
