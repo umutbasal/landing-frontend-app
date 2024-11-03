@@ -13,6 +13,16 @@ const nextConfig = {
   experimental: {
     webVitalsAttribution: ["FCP", "LCP", "CLS", "FID", "TTFB", "INP"],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'media.kommunity.com',
+        port: '',
+        pathname: '/**/*',
+      },
+    ],
+  },
 };
 
 export default withContentCollections(nextConfig);
