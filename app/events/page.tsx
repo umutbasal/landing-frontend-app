@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import LandingLayoutView from "@hhs/layouts/landing-layout";
-import { getEvents } from "@hhs/lib/kommunity";
+import { getAllEvents } from "@hhs/lib/kommunity";
 import Link from "next/link";
 import Subtitle from "@hhs/components/custom/subtitle";
 import { Button } from "@hhs/components/shadcn/button";
@@ -27,7 +27,7 @@ const EventsPage: React.FC = () => {
   const [totalPages, setTotalPages] = React.useState<number>(1);
 
   React.useEffect(() => {
-    getEvents(activeTab, currentPage).then((data: EventsProps) => {
+    getAllEvents(activeTab, currentPage).then((data: EventsProps) => {
       if (data) {
         setEvents((prev) => ({
           ...prev,
@@ -43,8 +43,6 @@ const EventsPage: React.FC = () => {
       setCurrentPage(page);
     }
   };
-
-  console.log(events);
 
   return (
     <LandingLayoutView>
