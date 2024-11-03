@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { getEvents } from "@hhs/lib/kommunity";
+import { getAllEvents } from "@hhs/lib/kommunity";
 import { cn } from "@hhs/utils/cn";
 import Link from "next/link";
 
@@ -27,8 +27,8 @@ const BannerLastEvent = () => {
     const fetchEvents = async () => {
       try {
         const [upcomingData, pastData] = await Promise.all([
-          getEvents("upcoming"),
-          getEvents("past"),
+          getAllEvents("upcoming"),
+          getAllEvents("past"),
         ]);
 
         const allEvents = (
