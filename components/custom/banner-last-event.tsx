@@ -20,7 +20,7 @@ const Wrapper = ({ children, className }: WrapperProps) => (
 );
 
 const BannerLastEvent = () => {
-  const [event, setEvent] = React.useState<EventProps | null>(null);
+  const [event, setEvent] = React.useState<EventDataProps | null>(null);
   const [error, setError] = React.useState("");
 
   React.useEffect(() => {
@@ -34,7 +34,7 @@ const BannerLastEvent = () => {
         const allEvents = (
           upcomingData.data.length > 0 ? upcomingData.data : pastData.data
         ).sort(
-          (a: EventProps, b: EventProps) =>
+          (a: EventDataProps, b: EventDataProps) =>
             new Date(a.start_date_humanity.date).getTime() -
             new Date(b.start_date_humanity.date).getTime()
         );
