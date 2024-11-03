@@ -3,6 +3,7 @@ import * as React from "react";
 import { getAllEvents } from "@hhs/lib/kommunity";
 import { cn } from "@hhs/utils/cn";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 interface WrapperProps extends React.PropsWithChildren {
   className?: string;
@@ -18,6 +19,30 @@ const Wrapper = ({ children, className }: WrapperProps) => (
     {children}
   </div>
 );
+
+const Loader = ({ className }: WrapperProps) => {
+  const loaderVariants = {
+    animate: {
+      rotate: [0, 360],
+      transition: {
+        repeat: Infinity,
+        duration: 1,
+        ease: "linear",
+      },
+    },
+  };
+
+  return (
+    <motion.span
+      id="loader"
+      className={cn("text-primary-foreground", className)}
+      variants={loaderVariants}
+      animate="animate"
+    >
+      |
+    </motion.span>
+  );
+}
 
 const BannerLastEvent = () => {
   const [event, setEvent] = React.useState<EventDataProps | null>(null);
@@ -61,7 +86,8 @@ const BannerLastEvent = () => {
   if (!event) {
     return (
       <Wrapper className="animate-pulse bg-slate-100 border border-input/30 bg-primary/30">
-        <p>Loading last event...</p>
+        <span>Loading last event </span>
+        <Loader className="ml-1" />
       </Wrapper>
     );
   }
