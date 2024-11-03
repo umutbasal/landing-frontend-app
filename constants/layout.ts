@@ -25,10 +25,6 @@ export const NAV_ITEMS = [
     label: "Events",
     href: "/events",
   }
-  // {
-  //   label: "Events",
-  //   href: "/events",
-  // }
 ];
 
 export const SOCIAL_LINKS = [
