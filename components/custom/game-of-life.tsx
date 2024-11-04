@@ -152,7 +152,7 @@ const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
 				{renderCells()}
 			</div>
 			<div className="controls-container mt-4 right-0 bottom-0 p-4 absolute group hidden md:block">
-				<div className="options-icon">
+				<div className="options-icon group-hover:hidden">
 					<Button className="btn">⚙️</Button>
 				</div>
 				<div className="controls hidden group-hover:block">
