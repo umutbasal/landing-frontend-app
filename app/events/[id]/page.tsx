@@ -3,10 +3,10 @@ import * as React from "react";
 import LandingLayoutView from "@hhs/layouts/landing-layout";
 import { getEvent } from "@hhs/lib/kommunity";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import Subtitle from "@hhs/components/custom/subtitle";
 import { Loader } from "@hhs/components/custom/loader";
-import NotFoundAsciiArt from "@hhs/components/custom/not-found-ascii-art";
+
 
 const EventDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,11 +24,7 @@ const EventDetailPage = () => {
     }
   }, [id]);
 
-  if (error) return (
-    <LandingLayoutView>
-      <NotFoundAsciiArt />
-    </LandingLayoutView>
-  );
+  if (error) return notFound()
 
 
   if (!event) return (
