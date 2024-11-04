@@ -4,14 +4,19 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@hhs/components/shadcn/tooltip";
-import { FOOTER, SOCIAL_LINKS } from "@hhs/constants/layout";
+import { FOOTER, FOOTER_ITEMS, SOCIAL_LINKS } from "@hhs/constants/layout";
 import Link from "next/link";
 
 function LandingFooter() {
   return (
     <footer className="flex items-center justify-between flex-wrap md:pl-4 gap-2 text-slate-500 text-xs">
       <p>{FOOTER.copyRight}</p>
-      <div className="flex gap-3 md:gap-4 mx-center">
+      <div className="flex gap-3 md:gap-4 mx-center items-center">
+        {FOOTER_ITEMS.map(({ href, label }) => (
+          <Link key={href} href={href}>
+            <p>{label}</p>
+          </Link>
+        ))}
         {SOCIAL_LINKS.map(({ href, icon, tooltip }) => (
           <TooltipProvider key={href}>
             <Tooltip>

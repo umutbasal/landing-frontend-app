@@ -31,6 +31,14 @@ export const NAV_ITEMS = [
   // }
 ];
 
+export const FOOTER_ITEMS = [
+  {
+    label: "Brand Kit",
+    href: "/brand",
+  }
+];
+
+
 export const SOCIAL_LINKS = [
   {
     icon: "X",
