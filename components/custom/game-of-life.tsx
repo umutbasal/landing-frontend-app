@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback, useRef, memo } from "react";
+import { Button } from "../shadcn/button";
 
 interface WorldDimensions {
 	height: number;
@@ -36,17 +37,20 @@ const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
 	}, [worldDimensions.height, worldDimensions.width]);
 
 	const initializePattern = () => {
-		const cells = initializeBHeptomino();
+		const cells = generatePattern();
 		setLivingCells({
 			...cells,
 		});
 		setGeneration(0);
 	};
-	function initializeBHeptomino(): LivingCells {
+	function generatePattern(): LivingCells {
 		const cells: LivingCells = {};
 		const midX = Math.floor(worldDimensions.width / cellSize / 2) - 1;
 		const midY = Math.floor(worldDimensions.height / cellSize / 2) - 1;
 
+		// x-xx
+		// xxx-
+		// -x--
 		const bHeptominoPattern = [
 			[midX, midY],
 			[midX + 2, midY],
@@ -57,7 +61,20 @@ const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
 			[midX + 1, midY + 2],
 		];
 
-		bHeptominoPattern.forEach(([x, y]) => {
+		// -xx
+		// xx-
+		// -x-
+		const rHeptominoPattern = [
+			[midX, midY],
+			[midX, midY + 1],
+			[midX + 1, midY + 1],
+			[midX - 1, midY],
+			[midX, midY - 1],
+		];
+
+		const randomPattern = Math.random() > 0.5 ? bHeptominoPattern : rHeptominoPattern;
+
+		randomPattern.forEach(([x, y]) => {
 			cells[`${x}-${y}`] = true;
 		});
 
@@ -77,7 +94,7 @@ const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
 
 					getNeighbors(x, y).forEach(([nx, ny]) => {
 						const neighborKey = `${nx}-${ny}`;
-						cells[neighborKey]
+						return cells[neighborKey]
 							? livingNeighbors++
 							: (potentialCells[neighborKey] = (potentialCells[neighborKey] || 0) + 1);
 					});
@@ -111,6 +128,7 @@ const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
 	const Cell = memo(({ isAlive }: { isAlive: boolean }) => (
 		<div className={`cell ${isAlive ? "bg-primary" : ""}`} style={{ width: cellSize - 2, height: cellSize - 2 }} />
 	));
+	Cell.displayName = "Cell";
 
 	const renderCells = () => {
 		const cols = Math.floor(worldDimensions.width / cellSize);
@@ -133,20 +151,25 @@ const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
 			>
 				{renderCells()}
 			</div>
-			<div className="controls mt-4">
-				<button className="btn" onClick={() => setIsRunning(true)}>Begin</button>
-				<button className="btn" onClick={() => setIsRunning(false)}>Stop</button>
-				<button className="btn" onClick={initializePattern}>Reset</button>
-				<div className="mt-2">
-					Speed (ms): 
-					<input
-						className="w-16 text-center text-black font-semibold"
-						type="number"
-						value={speed}
-						onChange={(e) => setSpeed(+e.target.value)}
-					/>
+			<div className="controls-container mt-4 right-0 bottom-0 p-4 absolute group hidden md:block">
+				<div className="options-icon">
+					<Button className="btn">⚙️</Button>
 				</div>
-				<div>Generation: {generation}</div>
+				<div className="controls hidden group-hover:block">
+					<Button className="btn" onClick={() => setIsRunning(true)}>Begin</Button>
+					<Button className="btn" onClick={() => setIsRunning(false)}>Pause</Button>
+					<Button className="btn" onClick={initializePattern}>Reset</Button>
+					<div className="mt-2">
+						Speed (ms):
+						<input
+							className="w-16 text-center font-semibold"
+							type="number"
+							value={speed}
+							onChange={(e) => setSpeed(+e.target.value)}
+						/>
+					</div>
+					<div>Generation: {generation}</div>
+				</div>
 			</div>
 		</div>
 	);
