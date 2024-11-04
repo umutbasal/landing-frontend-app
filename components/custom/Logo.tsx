@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import { SITE } from "@hhs/constants/metadata";
 import { useMounted } from "@hhs/hooks/useMounted";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface WrapperProps extends React.PropsWithChildren {
   className?: string;
@@ -51,14 +51,14 @@ export function AsciiLogo({ className }: WrapperProps) {
                                     
 `;
 
-  const lines = asciiArt.split('\n');
+  const lines = asciiArt.split("\n");
   return (
     <div className={className}>
       {lines.map((line, index) => {
         return (
           <motion.pre
             key={index}
-            className='text-primary text-xl'
+            className="text-primary text-xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
