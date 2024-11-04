@@ -8,7 +8,7 @@ function Background() {
 				className="absolute right-[calc((100%-56rem)/2)] bottom-0 z-0 p-2 opacity-10 hidden md:block"
 			/>
 			<GameOfLife
-				className="absolute opacity-20"
+				className="absolute -z-50 opacity-20"
 			/>
 		</>
 	);
