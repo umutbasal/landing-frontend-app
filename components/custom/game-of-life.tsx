@@ -141,9 +141,9 @@ const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
 	};
 
 	return (
-		<div className={className}>
+		<>
 			<div
-				className="grid"
+				className="grid absolute -z-50 opacity-20"
 				style={{
 					gridTemplateColumns: `repeat(${Math.floor(worldDimensions.width / cellSize)}, ${cellSize}px)`,
 					gridTemplateRows: `repeat(${Math.floor(worldDimensions.height / cellSize)}, ${cellSize}px)`,
@@ -151,11 +151,11 @@ const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
 			>
 				{renderCells()}
 			</div>
-			<div className="controls-container mt-4 right-0 bottom-0 p-4 absolute group hidden md:block">
+			<div className="controls-container mt-4 right-0 bottom-0 p-4 absolute opacity-20 group hidden md:block">
 				<div className="options-icon group-hover:hidden">
 					<Button className="btn">⚙️</Button>
 				</div>
-				<div className="controls hidden group-hover:block">
+				<div className="controls hidden group-hover:block transition-all z-50">
 					<Button className="btn" onClick={() => setIsRunning(true)}>Begin</Button>
 					<Button className="btn" onClick={() => setIsRunning(false)}>Pause</Button>
 					<Button className="btn" onClick={initializePattern}>Reset</Button>
@@ -171,7 +171,7 @@ const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
 					<div>Generation: {generation}</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
