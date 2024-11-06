@@ -14,7 +14,7 @@ interface LivingCells {
 }
 
 const GameOfLife = () => {
-	const cellSize = 17;
+	const cellSize = 21;
 	const initialSpeed = 100;
 	const [worldDimensions, setWorldDimensions] = useState<WorldDimensions>({ height: 0, width: 0 });
 	const [isRunning, setIsRunning] = useState(false);
