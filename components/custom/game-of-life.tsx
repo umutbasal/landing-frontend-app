@@ -11,11 +11,7 @@ interface LivingCells {
 	[key: string]: boolean;
 }
 
-interface WrapperProps {
-	className?: string;
-}
-
-const GameOfLife: React.FC<WrapperProps> = ({ className }) => {
+const GameOfLife = () => {
 	const cellSize = 17;
 	const initialSpeed = 150;
 	const [worldDimensions, setWorldDimensions] = useState<WorldDimensions>({ height: 0, width: 0 });
