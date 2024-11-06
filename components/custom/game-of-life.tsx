@@ -16,6 +16,7 @@ const patterns = {
 	bHeptopmino: "O.OO\nOOO.\n.O..\n",
 	piHeptopmino: "OOO\nO.O\nO.O\n",
 	rPentomino: ".OO\nOO.\n.O.\n",
+	acorn: ".O.....\n...O...\nOO..OOO\n",
 }
 
 const GameOfLife = () => {
