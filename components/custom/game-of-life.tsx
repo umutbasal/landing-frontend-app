@@ -142,6 +142,7 @@ const GameOfLife = () => {
 			/>
 		);
 	});
+	Cell.displayName = "Cell";
 
 	return (
 		<>
