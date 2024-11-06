@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, memo } from "react";
 import { Button } from "../shadcn/button";
 import { Grid, AutoSizer } from 'react-virtualized';
 import debounce from 'lodash.debounce';
@@ -15,7 +15,7 @@ interface LivingCells {
 
 const GameOfLife = () => {
 	const cellSize = 17;
-	const initialSpeed = 150;
+	const initialSpeed = 100;
 	const [worldDimensions, setWorldDimensions] = useState<WorldDimensions>({ height: 0, width: 0 });
 	const [isRunning, setIsRunning] = useState(false);
 	const [speed, setSpeed] = useState(initialSpeed);
@@ -133,7 +133,7 @@ const GameOfLife = () => {
 				nx < Math.floor(worldDimensions.width / cellSize) &&
 				ny < Math.floor(worldDimensions.height / cellSize));
 
-	const Cell = ({ columnIndex, rowIndex, style }: { columnIndex: number, rowIndex: number, style: React.CSSProperties }) => {
+	const Cell = memo(({ columnIndex, rowIndex, style }: { columnIndex: number, rowIndex: number, style: React.CSSProperties }) => {
 		const isAlive = !!livingCells[`${columnIndex}-${rowIndex}`];
 		return (
 			<div
@@ -141,7 +141,7 @@ const GameOfLife = () => {
 				style={{ ...style, width: cellSize - 2, height: cellSize - 2 }}
 			/>
 		);
-	};
+	});
 
 	return (
 		<>
