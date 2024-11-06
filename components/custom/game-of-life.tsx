@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import * as React from "react";
 import { Button } from "../shadcn/button";
 import debounce from 'lodash.debounce';
 
@@ -22,15 +22,15 @@ const patterns = {
 const GameOfLife = () => {
 	const cellSize = 21;
 	const initialSpeed = 100;
-	const [worldDimensions, setWorldDimensions] = useState<WorldDimensions>({ height: 0, width: 0 });
-	const canvasRef = useRef<HTMLCanvasElement | null>(null);
-	const [isRunning, setIsRunning] = useState(false);
-	const [speed, setSpeed] = useState(initialSpeed);
-	const [livingCells, setLivingCells] = useState<LivingCells>({});
-	const [generation, setGeneration] = useState(0);
-	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+	const [worldDimensions, setWorldDimensions] = React.useState<WorldDimensions>({ height: 0, width: 0 });
+	const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+	const [isRunning, setIsRunning] = React.useState(false);
+	const [speed, setSpeed] = React.useState(initialSpeed);
+	const [livingCells, setLivingCells] = React.useState<LivingCells>({});
+	const [generation, setGeneration] = React.useState(0);
+	const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		const handleResize = () => {
 			setWorldDimensions({ height: window.innerHeight - 100, width: window.innerWidth });
 			initializePattern();
@@ -84,7 +84,7 @@ const GameOfLife = () => {
 		setGeneration(0);
 	};
 
-	const draw = useCallback(() => {
+	const draw = React.useCallback(() => {
 		if (canvasRef.current) {
 			const ctx = canvasRef.current.getContext("2d");
 			if (ctx) {
@@ -101,7 +101,7 @@ const GameOfLife = () => {
 		}
 	}, [livingCells]);
 
-	const progressLife = useCallback(debounce(() => {
+	const progressLife = React.useCallback(debounce(() => {
 		const newLivingCells: LivingCells = {};
 		const potentialCells: { [key: string]: number } = {};
 
@@ -140,7 +140,7 @@ const GameOfLife = () => {
 		}
 	}, 100), [isRunning, speed, livingCells]);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (isRunning) {
 			if (timeoutRef.current) clearTimeout(timeoutRef.current);
 			timeoutRef.current = setTimeout(progressLife, speed);
@@ -155,7 +155,7 @@ const GameOfLife = () => {
 				nx < Math.floor(worldDimensions.width / cellSize) &&
 				ny < Math.floor(worldDimensions.height / cellSize));
 
-	useEffect(() => {
+	React.useEffect(() => {
 		draw();
 	}, [draw, livingCells]);
 
