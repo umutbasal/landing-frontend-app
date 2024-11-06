@@ -1,6 +1,7 @@
 "use client";
-import React, { useState, useEffect, useCallback, useRef, memo } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "../shadcn/button";
+import { Grid, AutoSizer } from 'react-virtualized';
 
 interface WorldDimensions {
 	height: number;
@@ -121,33 +122,35 @@ const GameOfLife = () => {
 				nx < Math.floor(worldDimensions.width / cellSize) &&
 				ny < Math.floor(worldDimensions.height / cellSize));
 
-	const Cell = memo(({ isAlive }: { isAlive: boolean }) => (
-		<div className={`cell ${isAlive ? "bg-primary" : ""}`} style={{ width: cellSize - 2, height: cellSize - 2 }} />
-	));
-	Cell.displayName = "Cell";
-
-	const renderCells = () => {
-		const cols = Math.floor(worldDimensions.width / cellSize);
-		const rows = Math.floor(worldDimensions.height / cellSize);
-		return Array.from({ length: rows * cols }, (_, i) => {
-			const x = i % cols;
-			const y = Math.floor(i / cols);
-			return <Cell key={`${x}-${y}`} isAlive={!!livingCells[`${x}-${y}`]} />;
-		});
+	const Cell = ({ columnIndex, rowIndex, style }: { columnIndex: number, rowIndex: number, style: React.CSSProperties }) => {
+		const isAlive = !!livingCells[`${columnIndex}-${rowIndex}`];
+		return (
+			<div
+				className={`cell ${isAlive ? "bg-primary" : ""}`}
+				style={{ ...style, width: cellSize - 2, height: cellSize - 2 }}
+			/>
+		);
 	};
 
 	return (
 		<>
-			<div
-				className="grid absolute -z-50 opacity-20"
-				style={{
-					gridTemplateColumns: `repeat(${Math.floor(worldDimensions.width / cellSize)}, ${cellSize}px)`,
-					gridTemplateRows: `repeat(${Math.floor(worldDimensions.height / cellSize)}, ${cellSize}px)`,
-				}}
-			>
-				{renderCells()}
-			</div>
-			<div className="controls-container mt-4 right-0 bottom-0 p-4 absolute opacity-20 group hidden md:block">
+			<AutoSizer>
+				{({ height, width }) => (
+					<Grid
+						className="grid absolute -z-50 opacity-20"
+						columnCount={Math.floor(worldDimensions.width / cellSize)}
+						columnWidth={cellSize}
+						height={height}
+						rowCount={Math.floor(worldDimensions.height / cellSize)}
+						rowHeight={cellSize}
+						width={width}
+						cellRenderer={({ columnIndex, key, rowIndex, style }) => (
+							<Cell key={key} columnIndex={columnIndex} rowIndex={rowIndex} style={style} />
+						)}
+					/>
+				)}
+			</AutoSizer>
+			<div className="controls-container mt-4 right-0 bottom-5 p-4 absolute opacity-20 group hidden md:block">
 				<div className="options-icon group-hover:hidden">
 					<Button className="btn">⚙️</Button>
 				</div>
