@@ -1,22 +1,22 @@
 "use client";
-import React, { useState, useEffect, useCallback, useRef, memo } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "../shadcn/button";
-import { Grid, AutoSizer } from 'react-virtualized';
 import debounce from 'lodash.debounce';
+
+interface LivingCells {
+	[key: string]: boolean;
+}
 
 interface WorldDimensions {
 	height: number;
 	width: number;
 }
 
-interface LivingCells {
-	[key: string]: boolean;
-}
-
 const GameOfLife = () => {
 	const cellSize = 21;
 	const initialSpeed = 100;
 	const [worldDimensions, setWorldDimensions] = useState<WorldDimensions>({ height: 0, width: 0 });
+	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const [isRunning, setIsRunning] = useState(false);
 	const [speed, setSpeed] = useState(initialSpeed);
 	const [livingCells, setLivingCells] = useState<LivingCells>({});
@@ -34,21 +34,12 @@ const GameOfLife = () => {
 		return () => window.removeEventListener("resize", handleResize);
 	}, [worldDimensions.height, worldDimensions.width]);
 
-	const initializePattern = () => {
-		const cells = generatePattern();
-		setLivingCells({
-			...cells,
-		});
-		setGeneration(0);
-	};
-	function generatePattern(): LivingCells {
+
+	const generatePattern = () => {
 		const cells: LivingCells = {};
 		const midX = Math.floor(worldDimensions.width / cellSize / 2) - 1;
 		const midY = Math.floor(worldDimensions.height / cellSize / 2) - 1;
 
-		// x-xx
-		// xxx-
-		// -x--
 		const bHeptominoPattern = [
 			[midX, midY],
 			[midX + 2, midY],
@@ -59,9 +50,6 @@ const GameOfLife = () => {
 			[midX + 1, midY + 2],
 		];
 
-		// -xx
-		// xx-
-		// -x-
 		const rHeptominoPattern = [
 			[midX, midY],
 			[midX, midY + 1],
@@ -77,7 +65,30 @@ const GameOfLife = () => {
 		});
 
 		return cells;
-	}
+	};
+
+	const initializePattern = () => {
+		const cells = generatePattern();
+		setLivingCells({ ...cells });
+		setGeneration(0);
+	};
+
+	const draw = useCallback(() => {
+		if (canvasRef.current) {
+			const ctx = canvasRef.current.getContext("2d");
+			if (ctx) {
+				ctx.clearRect(0, 0, worldDimensions.width, worldDimensions.height);
+
+				Object.keys(livingCells).forEach((key) => {
+					const [x, y] = key.split("-").map(Number);
+					if (livingCells[key]) {
+						ctx.fillStyle = "green";
+						ctx.fillRect(x * cellSize, y * cellSize, cellSize - 2, cellSize - 2);
+					}
+				});
+			}
+		}
+	}, [livingCells]);
 
 	const progressLife = useCallback(debounce(() => {
 		const newLivingCells: LivingCells = {};
@@ -133,35 +144,18 @@ const GameOfLife = () => {
 				nx < Math.floor(worldDimensions.width / cellSize) &&
 				ny < Math.floor(worldDimensions.height / cellSize));
 
-	const Cell = memo(({ columnIndex, rowIndex, style }: { columnIndex: number, rowIndex: number, style: React.CSSProperties }) => {
-		const isAlive = !!livingCells[`${columnIndex}-${rowIndex}`];
-		return (
-			<div
-				className={`cell ${isAlive ? "bg-primary" : ""}`}
-				style={{ ...style, width: cellSize - 2, height: cellSize - 2 }}
-			/>
-		);
-	});
-	Cell.displayName = "Cell";
+	useEffect(() => {
+		draw();
+	}, [draw, livingCells]);
 
 	return (
 		<>
-			<AutoSizer>
-				{({ height, width }) => (
-					<Grid
-						className="grid absolute -z-50 opacity-20"
-						columnCount={Math.floor(worldDimensions.width / cellSize)}
-						columnWidth={cellSize}
-						height={height}
-						rowCount={Math.floor(worldDimensions.height / cellSize)}
-						rowHeight={cellSize}
-						width={width}
-						cellRenderer={({ columnIndex, key, rowIndex, style }) => (
-							<Cell key={key} columnIndex={columnIndex} rowIndex={rowIndex} style={style} />
-						)}
-					/>
-				)}
-			</AutoSizer>
+			<canvas
+				ref={canvasRef}
+				width={worldDimensions.width}
+				height={worldDimensions.height}
+				className="absolute -z-50 opacity-20"
+			/>
 			<div className="controls-container mt-4 right-0 bottom-5 p-4 absolute opacity-20 group hidden md:block">
 				<div className="options-icon group-hover:hidden">
 					<Button className="btn">⚙️</Button>
