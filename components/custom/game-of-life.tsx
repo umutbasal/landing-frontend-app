@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "../shadcn/button";
 import { Grid, AutoSizer } from 'react-virtualized';
+import debounce from 'lodash.debounce';
 
 interface WorldDimensions {
 	height: number;
@@ -78,40 +79,50 @@ const GameOfLife = () => {
 		return cells;
 	}
 
-	const progressLife = useCallback(() => {
-		setLivingCells((cells) => {
-			setGeneration((gen) => gen + 1);
-			const newCells = { ...cells };
-			const potentialCells: { [key: string]: number } = {};
+	const progressLife = useCallback(debounce(() => {
+		const newLivingCells: LivingCells = {};
+		const potentialCells: { [key: string]: number } = {};
 
-			Object.entries(cells).forEach(([key, isAlive]) => {
-				if (isAlive) {
-					const [x, y] = key.split("-").map(Number);
-					let livingNeighbors = 0;
+		Object.entries(livingCells).forEach(([key, isAlive]) => {
+			if (isAlive) {
+				const [x, y] = key.split("-").map(Number);
+				let livingNeighbors = 0;
 
-					getNeighbors(x, y).forEach(([nx, ny]) => {
-						const neighborKey = `${nx}-${ny}`;
-						return cells[neighborKey]
-							? livingNeighbors++
-							: (potentialCells[neighborKey] = (potentialCells[neighborKey] || 0) + 1);
-					});
+				getNeighbors(x, y).forEach(([nx, ny]) => {
+					const neighborKey = `${nx}-${ny}`;
+					if (livingCells[neighborKey]) {
+						livingNeighbors++;
+					} else {
+						potentialCells[neighborKey] = (potentialCells[neighborKey] || 0) + 1;
+					}
+				});
 
-					if (livingNeighbors < 2 || livingNeighbors > 3) newCells[key] = false;
+				if (livingNeighbors === 2 || livingNeighbors === 3) {
+					newLivingCells[key] = true;
 				}
-			});
-
-			Object.keys(potentialCells).forEach((key) => {
-				if (potentialCells[key] === 3) newCells[key] = true;
-			});
-
-			return newCells;
+			}
 		});
 
-		if (isRunning) timeoutRef.current = setTimeout(progressLife, speed);
-	}, [isRunning, speed]);
+		Object.keys(potentialCells).forEach((key) => {
+			if (potentialCells[key] === 3) {
+				newLivingCells[key] = true;
+			}
+		});
+
+		setLivingCells(newLivingCells);
+		setGeneration((gen) => gen + 1);
+
+		if (isRunning) {
+			if (timeoutRef.current) clearTimeout(timeoutRef.current);
+			timeoutRef.current = setTimeout(progressLife, speed);
+		}
+	}, 100), [isRunning, speed, livingCells]);
 
 	useEffect(() => {
-		if (isRunning) timeoutRef.current = setTimeout(progressLife, speed);
+		if (isRunning) {
+			if (timeoutRef.current) clearTimeout(timeoutRef.current);
+			timeoutRef.current = setTimeout(progressLife, speed);
+		}
 		return () => clearTimeout(timeoutRef.current as NodeJS.Timeout);
 	}, [isRunning, speed, progressLife]);
 
