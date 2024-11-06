@@ -12,6 +12,12 @@ interface WorldDimensions {
 	width: number;
 }
 
+const patterns = {
+	bHeptopmino: "O.OO\nOOO.\n.O..\n",
+	piHeptopmino: "OOO\nO.O\nO.O\n",
+	rPentomino: ".OO\nOO.\n.O.\n",
+}
+
 const GameOfLife = () => {
 	const cellSize = 21;
 	const initialSpeed = 100;
@@ -35,32 +41,36 @@ const GameOfLife = () => {
 	}, [worldDimensions.height, worldDimensions.width]);
 
 
+	function parsePatternToCoords(pattern: string, midX: number, midY: number) {
+		const coords = [];
+
+		const rows = pattern.trim().split('\n');
+
+		const height = rows.length;
+		const width = rows[0].length;
+
+		const offsetX = Math.floor(width / 2);
+		const offsetY = Math.floor(height / 2);
+
+		for (let y = 0; y < height; y++) {
+			for (let x = 0; x < width; x++) {
+				if (rows[y][x] === 'O') {
+					coords.push([midX + (x - offsetX), midY + (y - offsetY)]);
+				}
+			}
+		}
+
+		return coords;
+	}
+
 	const generatePattern = () => {
 		const cells: LivingCells = {};
 		const midX = Math.floor(worldDimensions.width / cellSize / 2) - 1;
 		const midY = Math.floor(worldDimensions.height / cellSize / 2) - 1;
 
-		const bHeptominoPattern = [
-			[midX, midY],
-			[midX + 2, midY],
-			[midX + 3, midY],
-			[midX, midY + 1],
-			[midX + 1, midY + 1],
-			[midX + 2, midY + 1],
-			[midX + 1, midY + 2],
-		];
+		const randomPattern = Object.values(patterns)[Math.floor(Math.random() * Object.values(patterns).length)];
 
-		const rHeptominoPattern = [
-			[midX, midY],
-			[midX, midY + 1],
-			[midX + 1, midY + 1],
-			[midX - 1, midY],
-			[midX, midY - 1],
-		];
-
-		const randomPattern = Math.random() > 0.5 ? bHeptominoPattern : rHeptominoPattern;
-
-		randomPattern.forEach(([x, y]) => {
+		parsePatternToCoords(randomPattern, midX, midY).forEach(([x, y]) => {
 			cells[`${x}-${y}`] = true;
 		});
 
