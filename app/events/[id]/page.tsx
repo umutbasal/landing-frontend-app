@@ -3,22 +3,35 @@ import * as React from "react";
 import LandingLayoutView from "@hhs/layouts/landing-layout";
 import { getEvent } from "@hhs/lib/kommunity";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import Subtitle from "@hhs/components/custom/subtitle";
+import { Loader } from "@hhs/components/custom/loader";
+
 
 const EventDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const [event, setEvent] = React.useState<EventDataProps | null>(null);
-
+  const [error, setError] = React.useState<string | null>(null);
   React.useEffect(() => {
     if (id) {
       getEvent(id)
-        .then((event) => event && setEvent(event.data))
-        .catch((error) => console.error("Error fetching event:", error));
+        .then((event) => setEvent(event.data))
+        .catch((error) => {
+          console.error(error);
+          setError("Event not found or an error occurred.");
+          
+        });
     }
   }, [id]);
 
-  if (!event) return null;
+  if (error) return notFound()
+
+
+  if (!event) return (
+    <LandingLayoutView>
+     <Loader/>
+    </LandingLayoutView>
+  );
 
   return (
     <LandingLayoutView>
