@@ -61,6 +61,11 @@ export const SOCIAL_LINKS = [
     tooltip: "Medium",
     href: "https://medium.com/happy-hacking-space",
   },
+  {
+    icon: "Y",
+    tooltip: "YouTube",
+    href: "https://www.youtube.com/@HappyHackingSpace",
+  }
 ];
 
 export const FOOTER = {
