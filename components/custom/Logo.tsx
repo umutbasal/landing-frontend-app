@@ -1,8 +1,6 @@
 "use client";
 import * as React from "react";
 import { useTheme } from "next-themes";
-import Image from "next/image";
-import { SITE } from "@hhs/constants/metadata";
 import { useMounted } from "@hhs/hooks/useMounted";
 import { motion } from "framer-motion";
 
