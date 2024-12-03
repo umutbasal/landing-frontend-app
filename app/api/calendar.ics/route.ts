@@ -30,6 +30,7 @@ export async function GET(): Promise<Response> {
     const calendar = IcalCalendar({
       prodId: { company: 'HappyHackingSpace', product: 'HHS', language: 'EN' },
       timezone: 'UTC',
+      name: 'HHS Events'
     });
 
     // Add all events to calendar
