@@ -31,7 +31,6 @@ const LandingHeader = () => {
             className="flex items-center gap-2 md:px-2 order-2 md:order:1"
           >
             <Logo />
-            <span className="font-bold w-44">{SITE.title}</span>
           </Link>
           {/* Desktop */}
           <nav className="hidden md:flex items-center flex-wrap grow h-10">
