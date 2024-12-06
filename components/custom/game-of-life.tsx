@@ -188,7 +188,7 @@ const GameOfLife = () => {
         ref={canvasRef}
         width={worldDimensions.width}
         height={worldDimensions.height}
-        className="absolute -z-50 opacity-20"
+        className="absolute top-0 left-0 w-full h-[calc(100vh-100px)] -z-50 opacity-20"
       />
       <div className="controls-container mt-4 right-0 bottom-5 p-4 absolute opacity-20 group hidden md:block">
         <div className="options-icon group-hover:hidden">
