@@ -9,13 +9,17 @@ const Iframe: React.FC = () => {
 
   React.useEffect(() => {
     const checkIframeAvailability = async () => {
-      const response = await fetch("https://kick.com/api/v2/channels/happyhackingspac3/livestream");
-      if (response.status !== 404) {
-        setIframeAvailability(true);
-      }
-      const data = await response.json();
-      if (data.data !== null) {
-        setIframeAvailability(true);
+      try {
+        const response = await fetch("https://kick.com/api/v2/channels/happyhackingspac3/livestream");
+        if (response.status !== 404) {
+          setIframeAvailability(true);
+        }
+        const data = await response.json();
+        if (data.data !== null) {
+          setIframeAvailability(true);
+        }
+      } catch (error) {
+        return error;
       }
     };
 
