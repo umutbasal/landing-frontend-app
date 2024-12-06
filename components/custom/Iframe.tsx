@@ -43,7 +43,7 @@ const Iframe: React.FC = () => {
       {isIframeAvailable && (
         <Button
           onClick={toggleIframeVisibility}
-          className={`absolute right-0 border-none px-4 py-2 cursor-pointer ${isIframeVisible ? "bottom-[500px]" : "bottom-[100px]"}`}
+          className={`absolute right-0 border-none px-4 py-2 cursor-pointer ${isIframeVisible ? "bottom-[500px]" : "bottom-[150px]"}`}
         >
           {isIframeVisible ? "Minimize" : "📺 Live Streaming Now"}
         </Button>
