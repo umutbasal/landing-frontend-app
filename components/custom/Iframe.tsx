@@ -1,34 +1,30 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import { Button } from "../shadcn/button";
 
 const Iframe: React.FC = () => {
-  const [isIframeVisible, setIframeVisibility] = useState(false);
-  const [isIframeAvailable, setIframeAvailability] = useState(false);
+  const [isIframeVisible, setIframeVisibility] = React.useState(false);
+  const [isIframeAvailable, setIframeAvailability] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const checkIframeAvailability = async () => {
-      try {
-        const response = await fetch("https://kick.com/api/v2/channels/happyhackingspac3/livestream");
-        if (response.status !== 404) {
-          setIframeAvailability(true);
-        }
-        const data = await response.json();
-        if (data.data !== null) {
-          setIframeAvailability(true);
-        }
-      } catch (error) {
-        console.error("Error checking iframe availability:", error);
+      const response = await fetch("https://kick.com/api/v2/channels/happyhackingspac3/livestream");
+      if (response.status !== 404) {
+        setIframeAvailability(true);
+      }
+      const data = await response.json();
+      if (data.data !== null) {
+        setIframeAvailability(true);
       }
     };
 
     checkIframeAvailability();
   }, []);
 
-  const toggleIframeVisibility = () => {
+  const toggleIframeVisibility = React.useCallback(() => {
     setIframeVisibility((prev) => !prev);
-  };
+  }, []);
 
   return (
     <div className="relative h-full w-full">
