@@ -31,7 +31,7 @@ const KickIframe: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative h-full w-full">
+    <div className="h-full w-full">
       {isIframeAvailable && isIframeVisible && (
         <iframe
           src="https://player.kick.com/happyhackingspac3"
@@ -43,7 +43,7 @@ const KickIframe: React.FC = () => {
       {isIframeAvailable && (
         <Button
           onClick={toggleIframeVisibility}
-          className={`absolute right-0 border-none px-4 py-2 cursor-pointer ${isIframeVisible ? "bottom-[500px]" : "bottom-[150px]"}`}
+          className={`controls-container right-0 absolute ${isIframeVisible ? "bottom-[500px]" : "bottom-[150px]"}`}
         >
           {isIframeVisible ? "Minimize" : "📺 Live Streaming Now"}
         </Button>
