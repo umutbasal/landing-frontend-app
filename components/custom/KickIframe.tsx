@@ -11,9 +11,6 @@ const KickIframe: React.FC = () => {
     const checkIframeAvailability = async () => {
       try {
         const response = await fetch("https://kick.com/api/v2/channels/happyhackingspac3/livestream");
-        if (response.status !== 404) {
-          setIframeAvailability(true);
-        }
         const data = await response.json();
         if (data.data !== null) {
           setIframeAvailability(true);
