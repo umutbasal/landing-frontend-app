@@ -4,7 +4,6 @@ import ThemeProvider from "@hhs/providers/theme-provider";
 import { SITE } from "@hhs/constants/metadata";
 import "@hhs/assets/styles/globals.css";
 import ServiceWorkerRegister from "@hhs/components/custom/ServiceWorkerRegister";
-import Iframe from "@hhs/components/custom/Iframe";
 import { metadata } from "./metadata";
 
 export { metadata };
@@ -17,7 +16,6 @@ export default function RootLayout({ children }: ChildrenProps) {
           <ServiceWorkerRegister />
           {children}
         </ThemeProvider>
-        <Iframe></Iframe>
       </body>
     </html>
   );
