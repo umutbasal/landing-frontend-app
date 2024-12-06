@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Button } from "../shadcn/button";
 
-const Iframe: React.FC = () => {
+const KickIframe: React.FC = () => {
   const [isIframeVisible, setIframeVisibility] = React.useState(false);
   const [isIframeAvailable, setIframeAvailability] = React.useState(false);
 
@@ -52,4 +52,4 @@ const Iframe: React.FC = () => {
   );
 };
 
-export default Iframe;
+export default KickIframe;
