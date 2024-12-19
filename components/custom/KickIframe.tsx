@@ -10,7 +10,7 @@ const KickIframe: React.FC = () => {
   React.useEffect(() => {
     const checkIframeAvailability = async () => {
       try {
-        const response = await fetch("https://kick.com/api/v2/channels/happyhackingspac3/livestream");
+        const response = await fetch("https://kick.com/api/v2/channels/happyhackingspace/livestream");
         const data = await response.json();
         if (data.data !== null) {
           setIframeAvailability(true);
@@ -31,7 +31,7 @@ const KickIframe: React.FC = () => {
     <div className="h-full w-full">
       {isIframeAvailable && isIframeVisible && (
         <iframe
-          src="https://player.kick.com/happyhackingspac3"
+          src="https://player.kick.com/happyhackingspace"
           className="absolute bottom-0 right-0 w-full md:w-[853px] h-[480px]"
           allowFullScreen
           title="Kick Player"
