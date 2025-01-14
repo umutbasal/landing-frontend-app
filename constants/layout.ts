@@ -6,25 +6,53 @@ export const NAV_ITEMS = [
     href: "/",
   },
   {
-    label: "Manifesto",
-    href: "/manifesto",
-  },
-  {
-    label: "Team",
-    href: "/team",
-  },
-  {
-    label: "History",
-    href: "/history",
-  },
-  {
-    label: "Contact",
-    href: "/contact",
-  },
-  {
     label: "Events",
     href: "/events",
-  }
+  },
+  {
+    label: "HHS",
+    href: "#",
+    items: [
+      {
+        label: "Manifesto",
+        href: "/manifesto",
+      },
+      {
+        label: "Team",
+        href: "/team",
+      },
+      {
+        label: "History",
+        href: "/history",
+      },
+      {
+        label: "Contact",
+        href: "/contact",
+      },
+      {
+        label: "Branding",
+        href: "/brand",
+      },
+    ],
+  },
+  {
+    label: "Competitions",
+    href: "#",
+    items: [
+      {
+        label: "CodeJam",
+        href: "/events/happy-hacking-space-competitions-code-jam-181925-f02a63d8",
+      },
+      {
+        label: "Hackathon",
+        href: "/events/hackathon-cultural-heritage-and-digitalization-1c617d99",
+      },
+    ],
+  },
+  {
+    label: "Live",
+    href: "/live",
+  },
 ];
 
 export const FOOTER_ITEMS = [
