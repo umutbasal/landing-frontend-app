@@ -57,6 +57,12 @@ export default async function sitemap() {
       priority: 0.7,
     },
     {
+      url: `${SITE.url}/live`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.7,
+    },
+    {
       url: `${SITE.url}/events`,
       lastModified: new Date(),
       changeFrequency: "weekly",
