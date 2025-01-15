@@ -27,6 +27,12 @@ export default async function sitemap() {
       priority: 1,
     },
     {
+      url: `${SITE.url}/philosophy`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.9,
+    },
+    {
       url: `${SITE.url}/manifesto`,
       lastModified: new Date(),
       changeFrequency: "yearly",
