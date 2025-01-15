@@ -32,6 +32,10 @@ export const NAV_ITEMS = [
     href: "#",
     items: [
       {
+        label: "Philosophy",
+        href: "/philosophy",
+      },
+      {
         label: "Manifesto",
         href: "/manifesto",
       },
