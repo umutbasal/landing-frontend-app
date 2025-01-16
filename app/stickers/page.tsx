@@ -2,8 +2,8 @@
 
 import Floating, { FloatingElement } from "../../components/fancy/parallax-floating"
 import LandingLayoutView from "@hhs/layouts/landing-layout"
-import { motion } from "framer-motion"
-import { useRef } from "react"
+import { motion, stagger, useAnimate } from "motion/react"
+import * as React from "react"
 
 const bgColors = [
 	"bg-red-500",
@@ -29,15 +29,18 @@ const positions = [
 
 const stickers = Array.from({ length: 8 }, (_, i) => ({
 	depth: Math.random() * 2 + 0.5,
-	className: `${positions[i]} ${bgColors[i]} w-32 h-32 rounded-xl cursor-pointer`,
+	className: `${positions[i]} rounded-xl cursor-pointer`,
 }))
 
 export default function StickersPage() {
-	const scope = useRef(null)
+	const [scope, animate] = useAnimate()
+	React.useEffect(() => {
+		animate("div", { opacity: [0, 1] }, { duration: 0.2, delay: stagger(0.08) })
+	}, [])
 
 	return (
 		<LandingLayoutView>
-			<div className="w-full h-screen overflow-hidden" ref={scope}>
+			<div className="w-full overflow-hidden" ref={scope}>
 				<Floating className="" sensitivity={2}>
 					{stickers.map((sticker, index) => (
 						<FloatingElement
@@ -45,25 +48,20 @@ export default function StickersPage() {
 							className={sticker.className}
 							depth={sticker.depth}
 						>
-							<motion.div 
-								className="w-full h-full"
-								initial={{ opacity: 0, scale: 0.8 }}
-								animate={{ opacity: 1, scale: 1 }}
-								transition={{ delay: index * 0.1 }}
-								whileHover={{ scale: 1.1 }}
-								whileTap={{ scale: 0.95 }}
+							<motion.div
+								className={`${bgColors[index]} w-32 h-32 object-cover hover:scale-105 duration-200 cursor-pointer transition-transform`}
 							/>
 						</FloatingElement>
 					))}
 				</Floating>
-				<div className="absolute inset-0 flex items-center justify-center">
+				<div className="absolute inset-0 flex items-center justify-center pointer-events-none">
 					<motion.div
-						className="z-50 text-center space-y-4 items-center flex flex-col"
+						className="text-center space-y-4 items-center flex flex-col"
 						initial={{ opacity: 0, y: 10 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.88, delay: 0.5 }}
 					>
-						<p className="text-5xl md:text-7xl z-50 text-white font-calendas italic">
+						<p className="text-5xl md:text-7xl text-white font-calendas italic">
 							Stickers
 						</p>
 					</motion.div>
